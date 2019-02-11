@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  strongswan:
+    container_name: strongswan
+    build: ./strongswan
+    restart: always
+    ports:
+      - "${IP:-0.0.0.0}:${PORT1:-500}:500/udp"
+      - "${IP:-0.0.0.0}:${PORT2:-4500}:4500/udp"
+    environment:
+      TZ: ${TZ}
+      HOST: ${HOST}
+    privileged: true
+    volumes:
+      - conf:/config
+      - etc:/etc
+    networks:
+      - frontend
+    logging:
+      driver: ${TINYPROXY_LOG_DRIVER:-json-file}
+      options:
+        max-size: ${TINYPROXY_LOG_MAX_SIZE:-2m}
+        max-file: ${TINYPROXY_LOG_MAX_FILE:-3}
+
+volumes:
+  conf:
+  etc:
+
+networks:
+  frontend:
+    external:
+      name: frontend
