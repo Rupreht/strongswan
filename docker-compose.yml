@@ -3,11 +3,12 @@ version: '3'
 services:
   strongswan:
     container_name: strongswan
+    #    build: https://github.com/kotfenix/docker-ikev2-vpn-server.git
     build: ./strongswan
     restart: always
     ports:
-      - "${IP:-0.0.0.0}:${PORT1:-500}:500/udp"
-      - "${IP:-0.0.0.0}:${PORT2:-4500}:4500/udp"
+      - "${IP:-0.0.0.0}:500:500/udp"
+      - "${IP:-0.0.0.0}:4500:4500/udp"
     environment:
       TZ: ${TZ}
       HOST: ${HOST}
